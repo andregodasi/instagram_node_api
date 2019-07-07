@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 
@@ -25,5 +26,11 @@ app.use(
   express.static(path.resolve(__dirname, '..', 'uploads', 'resized'))
 );
 app.use(require('./routes'));
+
+const dirUpload = path.resolve(__dirname, '..', 'uploads');
+const dirUploadsResized = path.resolve(__dirname, '..', 'uploads',  'resized');
+if (!fs.existsSync(dirUpload) || !fs.existsSync(dirUploadsResized)) {
+  fs.mkdirSync(dirUploadsResized);
+}
 
 server.listen(3333);
